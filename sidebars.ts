@@ -118,20 +118,71 @@ const sidebars: SidebarsConfig = {
     'libraries/overview',
     {
       type: 'category',
-      label: 'Common Libraries',
+      label: 'API & Response',
       items: [
         'libraries/common-api',
+        'libraries/common-api-usage-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Auditing & Logging',
+      items: [
         'libraries/common-audit',
-        'libraries/common-cache',
-        'libraries/common-config',
-        'libraries/common-dto',
-        'libraries/common-events',
-        'libraries/common-exceptions',
+        'libraries/common-audit-usage-guide',
         'libraries/common-logging',
+        'libraries/common-logging-usage-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Configuration & Properties',
+      items: [
+        'libraries/common-config',
+        'libraries/common-config-usage-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Events & Messaging',
+      items: [
+        'libraries/common-events',
+        'libraries/common-events-usage-guide',
         'libraries/common-messaging',
-        'libraries/common-models',
+        'libraries/common-messaging-usage-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Error Handling',
+      items: [
+        'libraries/common-exceptions',
+        'libraries/common-exceptions-usage-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Security & Authentication',
+      items: [
         'libraries/common-security',
+        'libraries/common-security-usage-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Testing & Quality',
+      items: [
         'libraries/common-test',
+        'libraries/common-test-usage-guide',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Other Libraries',
+      items: [
+        'libraries/common-cache',
+        'libraries/common-dto',
+        'libraries/common-models',
         'libraries/common-utils',
         'libraries/common-validation',
       ],

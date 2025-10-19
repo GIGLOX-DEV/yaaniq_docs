@@ -2,9 +2,31 @@
 
 The `common-api` library provides base classes, utilities, and standardized patterns for building REST APIs across all YaniQ microservices.
 
+## Version & Dependencies
+
+- **Version:** 1.0.0
+- **Java:** 21
+- **Group ID:** com.yaniq
+- **Artifact ID:** common-api
+
+### Dependencies
+- Lombok (provided scope)
+- Jackson Annotations
+- Swagger Models Jakarta (2.2.15)
+
 ## Installation
 
 Add to your service's `pom.xml`:
+
+```xml
+<dependency>
+    <groupId>com.yaniq</groupId>
+    <artifactId>common-api</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+Or use the project version property:
 
 ```xml
 <dependency>
@@ -16,34 +38,55 @@ Add to your service's `pom.xml`:
 
 ## Features
 
-- ✅ Base REST controllers
-- ✅ Standardized response wrappers
-- ✅ Pagination support
-- ✅ API versioning
-- ✅ Request/Response logging
-- ✅ CORS configuration
+- ✅ Standardized API response wrapper (ApiResponse)
+- ✅ Response factory for common patterns
+- ✅ Pagination support (PageMetadata & ApiPagination)
+- ✅ HATEOAS links support
+- ✅ Multiple response styles (REST, GraphQL, Simple, etc.)
+- ✅ Structured error handling
+- ✅ Request/Response metadata (traceId, requestId, timestamp)
 - ✅ OpenAPI/Swagger integration
 
-## Base Controller
+## Quick Start
 
-Extend `BaseController` for common functionality:
+### Basic Success Response
 
 ```java
 @RestController
-@RequestMapping("/api/products")
-public class ProductController extends BaseController {
+@RequestMapping("/api/v1/products")
+public class ProductController {
     
     @GetMapping("/{id}")
     public ApiResponse<ProductDTO> getProduct(@PathVariable Long id) {
         ProductDTO product = productService.findById(id);
-        return success(product);
+        return ApiResponse.success(product);
     }
     
     @PostMapping
     public ApiResponse<ProductDTO> createProduct(@RequestBody @Valid ProductRequest request) {
         ProductDTO product = productService.create(request);
-        return created(product);
+        return ApiResponseFactory.success(product, "Product created successfully");
     }
+}
+```
+
+**Response Structure:**
+```json
+{
+  "meta": {
+    "timestamp": 1729324800000,
+    "traceId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "requestId": "req-123456"
+  },
+  "status": "SUCCESS",
+  "data": {
+    "id": 1,
+    "name": "Product Name",
+    "price": 29.99
+  },
+  "statusCode": 200,
+  "timestamp": 1729324800000,
+  "version": "1.0"
 }
 ```
 
@@ -52,196 +95,381 @@ public class ProductController extends BaseController {
 ### Success Response
 
 ```java
-public ApiResponse<T> success(T data) {
-    return ApiResponse.<T>builder()
-        .data(data)
-        .success(true)
-        .timestamp(Instant.now())
-        .build();
-}
+// Simple success
+ApiResponse<ProductDTO> response = ApiResponse.success(product);
+
+// Success with message
+ApiResponse<ProductDTO> response = ApiResponseFactory.success(
+    product, 
+    "Product retrieved successfully"
+);
+
+// Success with custom status code
+ApiResponse<ProductDTO> response = ApiResponseFactory.success(
+    product, 
+    "Resource created", 
+    201
+);
 ```
 
 ### Error Response
 
 ```java
-public ApiResponse<Void> error(String message, HttpStatus status) {
-    return ApiResponse.<Void>builder()
-        .success(false)
-        .error(message)
-        .status(status.value())
-        .timestamp(Instant.now())
-        .build();
-}
+// Single error
+ApiError error = ApiError.of("NOT_FOUND", "Product not found");
+ApiResponse<Object> response = ApiResponse.error(error);
+
+// Multiple errors
+List<ApiError> errors = List.of(
+    ApiError.of("VALIDATION_ERROR", "Invalid name"),
+    ApiError.of("VALIDATION_ERROR", "Invalid price")
+);
+ApiResponse<Object> response = ApiResponse.error(errors);
+
+// Simple error messages
+ApiResponse<Object> response = ApiResponseFactory.error(
+    "Validation failed",
+    400,
+    List.of("name: must not be blank", "price: must be positive")
+);
 ```
 
 ## Pagination
 
-### Using Pageable
+### Using PageMetadata (Recommended)
 
 ```java
 @GetMapping
-public ApiResponse<Page<ProductDTO>> getProducts(Pageable pageable) {
-    Page<ProductDTO> products = productService.findAll(pageable);
-    return success(products);
-}
-```
-
-### Custom Pagination
-
-```java
-@GetMapping
-public ApiResponse<PagedResponse<ProductDTO>> getProducts(
+public ApiResponse<List<ProductDTO>> getProducts(
     @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "20") int size) {
     
-    PagedResponse<ProductDTO> response = productService.findAll(page, size);
-    return success(response);
+    Page<ProductDTO> productsPage = productService.findAll(page, size);
+    
+    PageMetadata metadata = PageMetadata.of(
+        page, 
+        size, 
+        productsPage.getTotalElements()
+    );
+    
+    return ApiResponseFactory.paginated(
+        productsPage.getContent(), 
+        metadata
+    );
+}
+```
+
+**Response:**
+```json
+{
+  "data": [
+    {"id": 1, "name": "Product 1"},
+    {"id": 2, "name": "Product 2"}
+  ],
+  "pageMetadata": {
+    "page": 0,
+    "size": 20,
+    "total": 100,
+    "totalPages": 5,
+    "first": true,
+    "last": false
+  },
+  "statusCode": 200
+}
+```
+
+### Legacy ApiPagination (Still Supported)
+
+```java
+@GetMapping("/legacy")
+public ApiResponse<List<ProductDTO>> getProducts(Pageable pageable) {
+    Page<ProductDTO> productsPage = productService.findAll(pageable);
+    
+    ApiPagination pagination = new ApiPagination.Builder()
+        .currentPage(pageable.getPageNumber())
+        .pageSize(pageable.getPageSize())
+        .totalPages(productsPage.getTotalPages())
+        .totalRecords(productsPage.getTotalElements())
+        .build();
+    
+    return ApiResponse.success(productsPage.getContent(), pagination);
+}
+```
+
+## HATEOAS Links
+
+Add hypermedia links to your responses:
+
+```java
+@GetMapping("/{id}")
+public ApiResponse<ProductDTO> getProduct(@PathVariable Long id) {
+    ProductDTO product = productService.findById(id);
+    
+    // Create links
+    Links links = Links.self("/api/v1/products/" + id)
+        .links(Map.of(
+            "update", Link.builder()
+                .url("/api/v1/products/" + id)
+                .method("PUT")
+                .build(),
+            "delete", Link.builder()
+                .url("/api/v1/products/" + id)
+                .method("DELETE")
+                .build(),
+            "reviews", Link.builder()
+                .url("/api/v1/products/" + id + "/reviews")
+                .method("GET")
+                .build()
+        ))
+        .build();
+    
+    return ApiResponseFactory.custom(
+        product,
+        "Product retrieved successfully",
+        200,
+        ApiMeta.create(),
+        links,
+        null, null,
+        ResponseStyle.REST_ENVELOPE,
+        "1.0"
+    );
+}
+```
+
+## Response Styles
+
+The library supports multiple response styles via the `ResponseStyle` enum:
+
+```java
+public enum ResponseStyle {
+    REST_ENVELOPE,      // Standard REST with full metadata
+    GRAPHQL_ENVELOPE,   // GraphQL-style responses
+    SIMPLE,             // Just the data payload
+    PAGINATED,          // For paginated responses
+    STREAMING,          // For streaming APIs
+    NONE                // Raw data, no wrapper
+}
+```
+
+Example:
+```java
+@GetMapping("/simple/{id}")
+public ApiResponse<ProductDTO> getProductSimple(@PathVariable Long id) {
+    ProductDTO product = productService.findById(id);
+    
+    return ApiResponse.<ProductDTO>builder()
+        .data(product)
+        .style(ResponseStyle.SIMPLE)
+        .statusCode(200)
+        .build();
 }
 ```
 
 ## API Versioning
 
+Include version information in your responses:
+
 ```java
 @RestController
 @RequestMapping("/api/v1/products")
-public class ProductControllerV1 extends BaseController {
-    // Version 1 implementation
+public class ProductControllerV1 {
+    
+    @GetMapping("/{id}")
+    public ApiResponse<ProductDTO> get(@PathVariable Long id) {
+        ProductDTO product = productService.findById(id);
+        return ApiResponse.<ProductDTO>builder()
+            .data(product)
+            .version("1.0")
+            .statusCode(200)
+            .build();
+    }
 }
 
 @RestController
 @RequestMapping("/api/v2/products")
-public class ProductControllerV2 extends BaseController {
-    // Version 2 implementation
-}
-```
-
-## Request Validation
-
-```java
-@PostMapping
-public ApiResponse<ProductDTO> createProduct(
-    @RequestBody @Valid ProductRequest request) {
+public class ProductControllerV2 {
     
-    // Validation happens automatically
-    ProductDTO product = productService.create(request);
-    return created(product);
+    @GetMapping("/{id}")
+    public ApiResponse<ProductDTOV2> get(@PathVariable Long id) {
+        ProductDTOV2 product = productService.findByIdV2(id);
+        return ApiResponse.<ProductDTOV2>builder()
+            .data(product)
+            .version("2.0")
+            .statusCode(200)
+            .build();
+    }
 }
 ```
 
 ## Exception Handling
 
-Built-in exception handlers:
+Global exception handler example:
 
 ```java
-@ExceptionHandler(ResourceNotFoundException.class)
-public ResponseEntity<ErrorResponse> handleNotFound(
-    ResourceNotFoundException ex) {
-    return ResponseEntity
-        .status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.of(ex.getMessage()));
-}
-```
-
-## CORS Configuration
-
-Enable CORS in application.yml:
-
-```yaml
-yaniq:
-  common:
-    api:
-      cors:
-        enabled: true
-        allowed-origins: 
-          - http://localhost:3000
-          - https://www.yaniq.com
-        allowed-methods: GET,POST,PUT,DELETE,PATCH
-        allowed-headers: "*"
-        max-age: 3600
-```
-
-## OpenAPI/Swagger
-
-Automatic API documentation:
-
-```java
-@Tag(name = "Products", description = "Product management APIs")
-@RestController
-@RequestMapping("/api/products")
-public class ProductController extends BaseController {
+@RestControllerAdvice
+public class GlobalExceptionHandler {
     
-    @Operation(summary = "Get product by ID")
-    @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Success"),
-        @ApiResponse(responseCode = "404", description = "Product not found")
-    })
-    @GetMapping("/{id}")
-    public ApiResponse<ProductDTO> getProduct(@PathVariable Long id) {
-        return success(productService.findById(id));
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleNotFound(
+        ResourceNotFoundException ex) {
+        
+        ApiError error = ApiError.of("RESOURCE_NOT_FOUND", ex.getMessage());
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
+            .body(ApiResponse.error(error));
+    }
+    
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ApiResponse<Object>> handleValidation(
+        ValidationException ex) {
+        
+        List<ApiError> errors = ex.getErrors().stream()
+            .map(e -> ApiError.of("VALIDATION_ERROR", e.getMessage()))
+            .toList();
+        
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ApiResponse.error(errors));
+    }
+    
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Object>> handleGeneric(Exception ex) {
+        ApiError error = ApiError.of("INTERNAL_ERROR", "An unexpected error occurred");
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(ApiResponse.error(error));
     }
 }
 ```
 
-## Usage Examples
+## Core Components
 
-### Complete Controller Example
+### ApiResponse&lt;T&gt;
+Main response wrapper with metadata, status, data, and error information.
+
+### ApiResponseFactory
+Factory class providing static methods for creating common response types:
+- `success(T data, String message)`
+- `error(String message, int statusCode, List<String> errors)`
+- `paginated(List<T> items, PageMetadata page)`
+- `custom(...)` for fully customized responses
+
+### ApiError
+Structured error representation with code, message, and optional details.
+
+### ApiMeta
+Response metadata including timestamp, traceId, and requestId for tracking.
+
+### PageMetadata (Record)
+Modern pagination metadata with page, size, total, totalPages, first, and last flags.
+
+### Links & Link
+HATEOAS hypermedia links for RESTful navigation.
+
+## OpenAPI/Swagger Integration
+
+Automatic API documentation support:
+
+```java
+@Tag(name = "Products", description = "Product management APIs")
+@RestController
+@RequestMapping("/api/v1/products")
+public class ProductController {
+    
+    @Operation(summary = "Get product by ID", description = "Retrieves a product by its unique identifier")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "200", 
+            description = "Product found successfully"
+        ),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(
+            responseCode = "404", 
+            description = "Product not found"
+        )
+    })
+    @GetMapping("/{id}")
+    public ApiResponse<ProductDTO> getProduct(
+        @Parameter(description = "Product ID") @PathVariable Long id) {
+        return ApiResponse.success(productService.findById(id));
+    }
+}
+```
+
+## Complete Controller Example
 
 ```java
 @RestController
 @RequestMapping("/api/v1/products")
 @Tag(name = "Products")
-public class ProductController extends BaseController {
+@RequiredArgsConstructor
+public class ProductController {
     
     private final ProductService productService;
     
     @GetMapping
-    public ApiResponse<Page<ProductDTO>> list(Pageable pageable) {
-        return success(productService.findAll(pageable));
+    public ApiResponse<List<ProductDTO>> list(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size) {
+        
+        Page<ProductDTO> productsPage = productService.findAll(page, size);
+        PageMetadata metadata = PageMetadata.of(page, size, productsPage.getTotalElements());
+        
+        return ApiResponseFactory.paginated(productsPage.getContent(), metadata);
     }
     
     @GetMapping("/{id}")
     public ApiResponse<ProductDTO> get(@PathVariable Long id) {
-        return success(productService.findById(id));
+        return ApiResponse.success(productService.findById(id));
     }
     
     @PostMapping
     public ApiResponse<ProductDTO> create(@RequestBody @Valid ProductRequest request) {
-        return created(productService.create(request));
+        ProductDTO product = productService.create(request);
+        return ApiResponseFactory.success(product, "Product created successfully", 201);
     }
     
     @PutMapping("/{id}")
     public ApiResponse<ProductDTO> update(
         @PathVariable Long id,
         @RequestBody @Valid ProductRequest request) {
-        return success(productService.update(id, request));
+        
+        ProductDTO product = productService.update(id, request);
+        return ApiResponseFactory.success(product, "Product updated successfully");
     }
     
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@PathVariable Long id) {
         productService.delete(id);
-        return noContent();
+        return ApiResponseFactory.success(null, "Product deleted successfully", 204);
     }
 }
 ```
 
-## Configuration
+## Best Practices
 
-```yaml
-yaniq:
-  common:
-    api:
-      enabled: true
-      base-path: /api
-      default-page-size: 20
-      max-page-size: 100
-      logging:
-        enabled: true
-        include-payload: true
-```
+1. **Use ApiResponseFactory** for common scenarios instead of builder pattern
+2. **Consistent error codes** - Use structured error codes (e.g., `RESOURCE_NOT_FOUND`, `VALIDATION_ERROR`)
+3. **Include trace IDs** - Automatically included via ApiMeta for debugging
+4. **Use PageMetadata** for new pagination implementations
+5. **Version your APIs** - Include version in responses for API evolution
+6. **Add HATEOAS links** for discoverable APIs
+7. **Global exception handling** - Centralize error response creation
 
-## Next Steps
+## Documentation
 
-- [common-security](/docs/libraries/common-security)
-- [common-validation](/docs/libraries/common-validation)
-- [Services Overview](/docs/services/overview)
+For complete usage guide, examples, and advanced features, see:
+- **[Common-API Usage Guide](./common-api-usage-guide.md)** - Comprehensive documentation with all features and examples
 
+## Related Libraries
+
+- [common-security](./common-security.md) - Authentication and authorization
+- [common-validation](./common-validation.md) - Request validation
+- [common-exceptions](./common-exceptions.md) - Exception handling
+- [common-logging](./common-logging.md) - Logging utilities
+
+## Support
+
+- **Version:** 1.0.0
+- **GitHub:** https://github.com/yaniq/yaniq-monorepo
+- **Maintainer:** Danukaji Hansanath
+- **License:** Apache License 2.0

@@ -1,0 +1,244 @@
+.versionSelector {
+  position: relative;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.versionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.5rem;
+  color: var(--ifm-font-color-base);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.versionButton:hover {
+  background: var(--ifm-color-emphasis-200);
+  border-color: var(--ifm-color-primary);
+}
+
+.icon {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.versionLabel {
+  font-weight: 600;
+}
+
+.chevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  opacity: 0.6;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 280px;
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownHeader {
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.dropdownHeader h4 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.versionList {
+  padding: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.versionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.versionItem:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.versionItemActive {
+  background: var(--ifm-color-primary-lightest);
+}
+
+.versionItemActive:hover {
+  background: var(--ifm-color-primary-lightest);
+}
+
+.versionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.versionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.versionNumber {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+}
+
+.versionDate {
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.checkIcon {
+  flex-shrink: 0;
+  color: var(--ifm-color-primary);
+}
+
+/* Status badges */
+.badgeCurrent,
+.badgeBeta,
+.badgeDeprecated {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badgeCurrent {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badgeBeta {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.badgeDeprecated {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .badgeCurrent {
+  background: #1e4620;
+  color: #9ef0a8;
+}
+
+[data-theme='dark'] .badgeBeta {
+  background: #4a3b0c;
+  color: #ffd966;
+}
+
+[data-theme='dark'] .badgeDeprecated {
+  background: #5a1f1f;
+  color: #ff9999;
+}
+
+.dropdownFooter {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+  background: var(--ifm-color-emphasis-50);
+}
+
+.footerLink {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footerLink:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .versionButton {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .dropdown {
+    right: -1rem;
+    min-width: 260px;
+  }
+
+  .versionLabel {
+    display: none;
+  }
+}
+
+/* Accessibility */
+.versionButton:focus,
+.versionItem:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+

@@ -93,6 +93,10 @@ const config: Config = {
           label: 'API Reference',
         },
         {
+          type: 'custom-apiVersionSelector',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/yaniq/yaniq-monorepo',
           label: 'GitHub',
           position: 'right',
