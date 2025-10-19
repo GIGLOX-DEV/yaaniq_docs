@@ -22,10 +22,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./documentation
-    steps:
+gi    steps:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -34,12 +31,14 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-          cache-dependency-path: ./documentation/package-lock.json
+          cache-dependency-path: documentation/package-lock.json
 
       - name: Install dependencies
+        working-directory: ./documentation
         run: npm ci
 
       - name: Build website
+        working-directory: ./documentation
         run: npm run build
 
       - name: Upload artifact
@@ -57,4 +56,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
