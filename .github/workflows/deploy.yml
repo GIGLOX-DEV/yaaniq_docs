@@ -22,7 +22,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-gi    steps:
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
 
