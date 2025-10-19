@@ -1,0 +1,287 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #5B8DEE;
+  --ifm-color-primary-dark: #4279ea;
+  --ifm-color-primary-darker: #356de8;
+  --ifm-color-primary-darkest: #2458d6;
+  --ifm-color-primary-light: #74a1f2;
+  --ifm-color-primary-lighter: #82abf3;
+  --ifm-color-primary-lightest: #a7c5f7;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(91, 141, 238, 0.1);
+
+  /* Custom YaniQ colors */
+  --yaniq-blue: #5B8DEE;
+  --yaniq-cyan: #4ECAEF;
+  --yaniq-purple: #6C5DD3;
+  --yaniq-orange: #FF754C;
+  --yaniq-dark-bg: #2C3345;
+  --yaniq-light-text: #E8ECF3;
+  --yaniq-gray: #8B92A8;
+  --yaniq-dark-gray: #5A6175;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #5B8DEE;
+  --ifm-color-primary-dark: #4279ea;
+  --ifm-color-primary-darker: #356de8;
+  --ifm-color-primary-darkest: #2458d6;
+  --ifm-color-primary-light: #74a1f2;
+  --ifm-color-primary-lighter: #82abf3;
+  --ifm-color-primary-lightest: #a7c5f7;
+  --docusaurus-highlighted-code-line-bg: rgba(91, 141, 238, 0.2);
+
+  /* Dark theme specific */
+  --ifm-background-color: #1a1d2e;
+  --ifm-background-surface-color: #2C3345;
+  --ifm-navbar-background-color: #2C3345;
+  --ifm-footer-background-color: #1a1d2e;
+}
+
+/* Hide navbar title text, show only logo */
+.navbar__title {
+  display: none;
+}
+
+/* Navbar link styling - bold and gray */
+.navbar__link {
+  font-weight: 700;
+  color: var(--yaniq-gray) !important;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+}
+
+.navbar__link:hover {
+  color: var(--yaniq-blue) !important;
+}
+
+[data-theme='dark'] .navbar__link {
+  color: var(--yaniq-light-text) !important;
+  font-weight: 700;
+}
+
+[data-theme='dark'] .navbar__link:hover {
+  color: var(--yaniq-cyan) !important;
+}
+
+/* Navbar active link */
+.navbar__link--active {
+  color: var(--yaniq-blue) !important;
+  font-weight: 800;
+}
+
+[data-theme='dark'] .navbar__link--active {
+  color: var(--yaniq-cyan) !important;
+}
+
+/* Sidebar menu links - bold and gray */
+.menu__link {
+  font-weight: 700;
+  color: var(--yaniq-dark-gray);
+  font-size: 14px;
+}
+
+.menu__link:hover {
+  color: var(--yaniq-blue);
+}
+
+[data-theme='dark'] .menu__link {
+  color: var(--yaniq-gray);
+  font-weight: 700;
+}
+
+[data-theme='dark'] .menu__link:hover {
+  color: var(--yaniq-cyan);
+}
+
+/* Sidebar category labels - bold */
+.menu__list-item-collapsible {
+  font-weight: 800;
+}
+
+.menu__list-item-collapsible .menu__link {
+  font-weight: 800;
+  color: var(--yaniq-dark-gray);
+  font-size: 15px;
+}
+
+[data-theme='dark'] .menu__list-item-collapsible .menu__link {
+  color: var(--yaniq-light-text);
+  font-weight: 800;
+}
+
+/* Custom styling for code blocks */
+pre code {
+  background-color: var(--ifm-code-background);
+}
+
+/* Accent colors for different elements */
+.badge--primary {
+  background-color: var(--yaniq-blue);
+}
+
+.badge--secondary {
+  background-color: var(--yaniq-cyan);
+}
+
+.badge--success {
+  background-color: var(--yaniq-purple);
+}
+
+.badge--warning {
+  background-color: var(--yaniq-orange);
+}
+
+/* API Reference specific styling */
+article[class*="api"] table th {
+  background-color: var(--yaniq-blue);
+  color: white;
+}
+
+/* Highlighted code with accent colors */
+.token.keyword {
+  color: var(--yaniq-purple);
+}
+
+.token.string {
+  color: var(--yaniq-cyan);
+}
+
+.token.number {
+  color: var(--yaniq-orange);
+}
+
+/* Custom admonition colors */
+.admonition-tip {
+  border-left-color: var(--yaniq-cyan);
+}
+
+.admonition-info {
+  border-left-color: var(--yaniq-blue);
+}
+
+.admonition-warning {
+  border-left-color: var(--yaniq-orange);
+}
+
+.admonition-danger {
+  border-left-color: #ff4c4c;
+}
+
+/* Links with hover effects */
+a {
+  color: var(--yaniq-blue);
+}
+
+a:hover {
+  color: var(--yaniq-cyan);
+}
+
+/* Card styling */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(91, 141, 238, 0.1);
+}
+
+[data-theme='dark'] .card {
+  background-color: var(--ifm-background-surface-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Button styling */
+.button--primary {
+  background-color: var(--yaniq-blue);
+  border-color: var(--yaniq-blue);
+  font-weight: 700;
+}
+
+.button--primary:hover {
+  background-color: var(--yaniq-cyan);
+  border-color: var(--yaniq-cyan);
+}
+
+/* Navbar enhancements */
+.navbar {
+  box-shadow: 0 2px 8px rgba(91, 141, 238, 0.1);
+}
+
+[data-theme='dark'] .navbar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar active item */
+.menu__link--active {
+  background-color: rgba(91, 141, 238, 0.1);
+  border-left: 3px solid var(--yaniq-blue);
+  color: var(--yaniq-blue) !important;
+  font-weight: 800;
+}
+
+[data-theme='dark'] .menu__link--active {
+  background-color: rgba(91, 141, 238, 0.2);
+  color: var(--yaniq-cyan) !important;
+}
+
+/* Table styling for API reference */
+table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table thead tr {
+  background-color: var(--yaniq-blue);
+  color: white;
+  font-weight: 700;
+}
+
+[data-theme='dark'] table thead tr {
+  background-color: rgba(91, 141, 238, 0.3);
+}
+
+table tbody tr:nth-child(even) {
+  background-color: rgba(91, 141, 238, 0.05);
+}
+
+[data-theme='dark'] table tbody tr:nth-child(even) {
+  background-color: rgba(91, 141, 238, 0.1);
+}
+
+/* Code inline */
+code {
+  background-color: rgba(91, 141, 238, 0.1);
+  color: var(--yaniq-purple);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-weight: 600;
+}
+
+[data-theme='dark'] code {
+  background-color: rgba(91, 141, 238, 0.2);
+  color: var(--yaniq-cyan);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(91, 141, 238, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--yaniq-blue);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--yaniq-cyan);
+}
