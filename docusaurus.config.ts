@@ -15,15 +15,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://yaniq.com',
+  url: 'https://yaniq.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  baseUrl: '/yaaniq_docs/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'yaniq', // Usually your GitHub org/user name.
-  projectName: 'yaniq-monorepo', // Usually your repo name.
+  projectName: 'yaaniq_docs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
