@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 interface ApiVersion {
@@ -15,18 +16,28 @@ const API_VERSIONS: ApiVersion[] = [
     releaseDate: 'October 2024',
     status: 'current',
   },
-  // Future versions can be added here
-  // {
-  //   version: '1.1.0',
-  //   label: 'v1.1.0',
-  //   releaseDate: 'TBA',
-  //   status: 'beta',
-  // },
+  {
+    version: '1.1.0',
+    label: 'v1.1.0',
+    releaseDate: 'October 2025',
+    status: 'beta',
+  },
 ];
 
-export default function ApiVersionSelector(): JSX.Element {
+export default function ApiVersionSelector(): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedVersion, setSelectedVersion] = useState(API_VERSIONS[0]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const saved = localStorage.getItem('yaniq-api-version');
+    if (saved) {
+      const found = API_VERSIONS.find((v) => v.version === saved);
+      if (found) {
+        setSelectedVersion(found);
+      }
+    }
+  }, []);
 
   const handleVersionSelect = (version: ApiVersion) => {
     setSelectedVersion(version);
@@ -116,9 +127,9 @@ export default function ApiVersionSelector(): JSX.Element {
             ))}
           </div>
           <div className={styles.dropdownFooter}>
-            <a href="/docs/libraries/common-api-usage-guide" className={styles.footerLink}>
+            <Link to="/docs/libraries/common-api-usage-guide" className={styles.footerLink}>
               View API Documentation →
-            </a>
+            </Link>
           </div>
         </div>
       )}
@@ -134,4 +145,3 @@ export default function ApiVersionSelector(): JSX.Element {
     </div>
   );
 }
-

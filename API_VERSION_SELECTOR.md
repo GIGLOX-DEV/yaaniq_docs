@@ -58,7 +58,7 @@ const API_VERSIONS: ApiVersion[] = [
   {
     version: '1.1.0',
     label: 'v1.1.0',
-    releaseDate: 'January 2025',
+    releaseDate: 'October 2025',
     status: 'beta',
   },
   // Add more versions here
@@ -174,6 +174,5 @@ On mobile devices (< 768px):
 
 ---
 
-**Last Updated:** October 19, 2025  
+**Last Updated:** October 20, 2025  
 **Maintainer:** Danukaji Hansanath
-
