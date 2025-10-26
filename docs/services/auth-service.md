@@ -81,7 +81,7 @@ sequenceDiagram
     participant DiscoveryService as "Discovery Service"
     participant OtherServices as "Other-Services"
 
-    Note over Client,AuthService: Accessing Protected Route (Gateway Validates JWT)
+    Note over Client,OtherServices: Accessing Protected Route (Gateway Validates JWT)
 
     Client->>Gateway: GET /api/v?/protected-route (Header: Bearer jwt)
     
@@ -93,12 +93,12 @@ sequenceDiagram
     
     Note left of Gateway: JWT is valid. Forward request.
 
-    Gateway->>DiscoveryService: Find 'auth-service'
-    DiscoveryService-->>Gateway: 'auth-service' location
+    Gateway->>DiscoveryService: Find 'other-services'
+    DiscoveryService-->>Gateway: 'other-services' location
     
-    Gateway->>AuthService: Forward GET /api/v?/protected-route
+    Gateway->>OtherServices: Forward GET /api/v?/protected-route
     
-    AuthService-->>Gateway: { "protected_data": "..." }
+    OtherServices-->>Gateway: { "protected_data": "..." }
     Gateway-->>Client: { "protected_data": "..." }
 ```
 
