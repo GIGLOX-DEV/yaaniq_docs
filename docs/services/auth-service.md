@@ -41,7 +41,7 @@ The `auth service` is a Spring Boot application that provides authentication and
 ## Tech Diagrams
 
 ### 1. User Registration & Token Generation
-+
+
 ```mermaid
     sequenceDiagram
     participant Client
