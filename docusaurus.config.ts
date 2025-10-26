@@ -34,6 +34,12 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+markdown: {
+    mermaid: true,
+  },
+
+  // ✅ Add Mermaid theme
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     [
@@ -59,6 +65,10 @@ const config: Config = {
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
       respectPrefersColorScheme: true,
+    },
+// ✅ Optional: Mermaid color themes
+    mermaid: {
+      theme: { light: 'default', dark: 'dark' },
     },
     navbar: {
       title: '',

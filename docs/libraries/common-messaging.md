@@ -1591,6 +1591,7 @@ spring:
 ```
 
 #### UserEventPayload
+
 ```java
 {
   "userId": "uuid",
@@ -1606,6 +1607,7 @@ spring:
 ```
 
 #### NotificationPayload
+
 ```java
 {
   "title": "string",
@@ -1633,6 +1635,13 @@ spring:
 - **Consumer Group**: Group of consumers sharing message processing load
 - **Topic**: Named channel for publishing messages (Kafka)
 - **Exchange**: Message routing component (RabbitMQ)
+
+---
+
+### Update Suggest (Version : 1.2.0)
+
+- SendAndWait method for synchronous messaging
+- Support for additional payload types 
 
 ---
 
