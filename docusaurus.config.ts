@@ -107,7 +107,7 @@ markdown: {
           position: 'right',
         },
         {
-          href: 'https://github.com/yaniq/yaniq-monorepo',
+          href: 'https://github.com/GIGLOX-DEV',
           label: 'GitHub',
           position: 'right',
         },
