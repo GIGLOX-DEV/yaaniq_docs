@@ -20,16 +20,24 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./yaaniq_docs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Verify working directory and package.json
+        run: |
+          pwd
+          ls -la
+          cat package.json
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 25.1.0
+          node-version: 20
           cache: 'npm'
-          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -43,7 +51,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./build
+          path: ./yaaniq_docs/build
 
   deploy:
     environment:
