@@ -1,3 +1,6 @@
+### **[📚 Complete Documentation](/docs/message-lib/) →**
+### **[🚀 Quick Reference](/docs/message-lib/common-messaging-v1.2.0-quick-reference) →**
+### **[🎨 Visual Diagrams](/docs/message-lib/common-messaging-v1.2.0-diagrams) →**
 ---
 sidebar_position: 50
 title: Message Library v1.2.0
@@ -41,7 +44,7 @@ graph LR
 
 The Message Library has its own dedicated documentation section with comprehensive guides:
 
-### **🚀 [Visit Message Library Documentation →](./message-lib/)**
+### **🚀 [Visit Message Library Documentation →](/docs/message-lib/)**
 
 **What you'll find:**
 - **Complete Setup Guide** - From installation to deployment
@@ -124,9 +127,6 @@ The Message Library is successfully integrated across YaniQ services:
 
 Ready to implement the Message Library in your service?
 
-### **[📚 Complete Documentation](./message-lib/) →**
-### **[🚀 Quick Reference](./message-lib/common-messaging-v1.2.0-quick-reference) →**
-### **[🎨 Visual Diagrams](./message-lib/common-messaging-v1.2.0-diagrams) →**
 
 ---
 

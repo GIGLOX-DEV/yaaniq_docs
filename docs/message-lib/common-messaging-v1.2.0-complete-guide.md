@@ -91,7 +91,7 @@ public class MessagingConfig {
     }
 }
 ```
-
+- [Common Messaging Library Overview](./)
 ### **3. Publish Messages**
 ```java
 @Service
@@ -1029,7 +1029,7 @@ ERROR: Could not autowire UniversalMessageProducer
 ### **Documentation Links**
 - [RabbitMQ Official Documentation](https://www.rabbitmq.com/documentation.html)
 - [Spring AMQP Reference](https://docs.spring.io/spring-amqp/reference/)
-- [Common Messaging v1.2.0 API Docs](internal-link)
+- [Common Messaging Library Overview](./)
 
 ### **Contact Information**
 - **Team**: YaniQ Messaging Team
