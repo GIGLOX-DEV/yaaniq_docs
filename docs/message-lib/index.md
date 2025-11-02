@@ -40,13 +40,13 @@ The Common Messaging Library provides a standardized, reusable messaging infrast
 ## 📖 **Documentation Structure**
 
 ### **🔰 Getting Started**
-- [**Complete Guide**](./common-messaging-v1.2.0-complete-guide.md) - Full documentation with setup, configuration, and usage
-- [**Quick Reference**](./common-messaging-v1.2.0-quick-reference.md) - Developer-focused quick start guide
-- [**Configuration Guide**](./rabbitmq-config-files-fixed.md) - Bean setup and troubleshooting
+- [**Complete Guide**](./common-messaging-v1.2.0-complete-guide) - Full documentation with setup, configuration, and usage
+- [**Quick Reference**](./common-messaging-v1.2.0-quick-reference) - Developer-focused quick start guide
+- [**Configuration Guide**](./rabbitmq-config-files-fixed) - Bean setup and troubleshooting
 
 ### **🎨 Visual Documentation**
-- [**Architecture Diagrams**](./common-messaging-v1.2.0-diagrams.md) - 18 comprehensive Mermaid diagrams
-- [**Implementation Guide**](./complete-rabbitmq-messaging-implementation.md) - Complete setup walkthrough
+- [**Architecture Diagrams**](./common-messaging-v1.2.0-diagrams) - 18 comprehensive Mermaid diagrams
+- [**Implementation Guide**](./complete-rabbitmq-messaging-implementation) - Complete setup walkthrough
 
 ## ⚡ **Quick Start**
 
@@ -203,10 +203,10 @@ The Common Messaging Library is fully integrated across the YaniQ ecosystem:
 
 ## 📞 **Support & Resources**
 
-- **📚 Complete Documentation**: [Full Guide](./common-messaging-v1.2.0-complete-guide.md)
-- **🚀 Quick Start**: [Developer Reference](./common-messaging-v1.2.0-quick-reference.md)
-- **🎨 Visual Guides**: [Architecture Diagrams](./common-messaging-v1.2.0-diagrams.md)
-- **🔧 Troubleshooting**: [Configuration Guide](./rabbitmq-config-files-fixed.md)
+- **📚 Complete Documentation**: [Full Guide](./common-messaging-v1.2.0-complete-guide)
+- **🚀 Quick Start**: [Developer Reference](./common-messaging-v1.2.0-quick-reference)
+- **🎨 Visual Guides**: [Architecture Diagrams](./common-messaging-v1.2.0-diagrams)
+- **🔧 Troubleshooting**: [Configuration Guide](./rabbitmq-config-files-fixed)
 
 ---
 

@@ -374,9 +374,9 @@ messageProducer.sendCriticalMessage(exchange, routingKey, analyticsData); // ❌
 
 ## 📞 **Quick Links**
 
-- 📚 [Complete Documentation](./common-messaging-v1.2.0-complete-guide.md)
-- 📊 [Visual Diagrams](./common-messaging-v1.2.0-diagrams.md)  
-- 🔧 [Configuration Fix Guide](./rabbitmq-config-files-fixed.md)
+- 📚 [Complete Documentation](./common-messaging-v1.2.0-complete-guide)
+- 📊 [Visual Diagrams](./common-messaging-v1.2.0-diagrams)  
+- 🔧 [Configuration Fix Guide](./rabbitmq-config-files-fixed)
 - 🐰 [RabbitMQ Management UI](http://localhost:15672) (dev)
 - 📈 [Grafana Dashboard](http://localhost:3000) (monitoring)
 

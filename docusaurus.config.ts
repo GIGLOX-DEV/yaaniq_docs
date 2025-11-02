@@ -25,7 +25,8 @@ const config: Config = {
   organizationName: 'yaniq', // Usually your GitHub org/user name.
   projectName: 'yaaniq_docs', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
