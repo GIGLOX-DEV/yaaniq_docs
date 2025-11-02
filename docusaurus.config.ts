@@ -98,6 +98,12 @@ markdown: {
         },
         {
           type: 'docSidebar',
+          sidebarId: 'messagingLibSidebar',
+          position: 'left',
+          label: 'Message Library v1.2.0',
+        },
+        {
+          type: 'docSidebar',
           sidebarId: 'apiSidebar',
           position: 'left',
           label: 'API Reference',
@@ -134,6 +140,10 @@ markdown: {
             {
               label: 'Libraries',
               to: '/docs/libraries/overview',
+            },
+            {
+              label: 'Message Library v1.2.0',
+              to: '/docs/message-lib/',
             },
           ],
         },

@@ -150,6 +150,12 @@ const sidebars: SidebarsConfig = {
         'libraries/common-events-usage-guide',
         'libraries/common-messaging',
         'libraries/common-messaging-usage-guide',
+        'libraries/message-library-v1.2.0',
+        {
+          type: 'link',
+          label: '📚 Message Library v1.2.0 Docs →',
+          href: '/docs/message-lib/',
+        },
       ],
     },
     {
@@ -185,6 +191,45 @@ const sidebars: SidebarsConfig = {
         'libraries/common-models',
         'libraries/common-utils',
         'libraries/common-validation',
+      ],
+    },
+  ],
+
+  // Common Messaging Library v1.2.0 - Dedicated sidebar
+  messagingLibSidebar: [
+    {
+      type: 'doc',
+      id: 'message-lib/index',
+      label: 'Overview',
+    },
+    {
+      type: 'category',
+      label: '🚀 Getting Started',
+      items: [
+        'message-lib/common-messaging-v1.2.0-quick-reference',
+        'message-lib/rabbitmq-config-files-fixed',
+      ],
+    },
+    {
+      type: 'category',
+      label: '📚 Complete Documentation',
+      items: [
+        'message-lib/common-messaging-v1.2.0-complete-guide',
+        'message-lib/complete-rabbitmq-messaging-implementation',
+      ],
+    },
+    {
+      type: 'category',
+      label: '🎨 Visual Documentation',
+      items: [
+        'message-lib/common-messaging-v1.2.0-diagrams',
+      ],
+    },
+    {
+      type: 'category',
+      label: '🔧 Implementation Guides',
+      items: [
+        'message-lib/common-messaging-v1.2.0-implementation-complete',
       ],
     },
   ],
