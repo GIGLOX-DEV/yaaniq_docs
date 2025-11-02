@@ -207,7 +207,6 @@ const sidebars: SidebarsConfig = {
       label: '🚀 Getting Started',
       items: [
         'message-lib/common-messaging-v1.2.0-quick-reference',
-        'message-lib/rabbitmq-config-files-fixed',
       ],
     },
     {
@@ -215,7 +214,7 @@ const sidebars: SidebarsConfig = {
       label: '📚 Complete Documentation',
       items: [
         'message-lib/common-messaging-v1.2.0-complete-guide',
-        'message-lib/complete-rabbitmq-messaging-implementation',
+        'message-lib/common-messaging-v1.2.0-guide',
       ],
     },
     {
