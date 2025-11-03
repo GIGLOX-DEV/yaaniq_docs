@@ -406,31 +406,36 @@ flowchart TD
     A[Service Method] --> B[UniversalMessageProducer]
     B --> C{Message Type}
     
-    C -->|User Event| D[sendUserEvent()]
-    C -->|Notification| E[sendNotification()]
-    C -->|Order Event| F[sendOrderEvent()]
-    C -->|System Event| G[sendSystemEvent()]
+    C -->|"User Event"| D[sendUserEvent]
     
-    D --> H[Build Routing Key<br/>user.created.inactive.auth]
-    E --> I[Build Routing Key<br/>notification.email.welcome.active]
-    F --> J[Build Routing Key<br/>order.created.confirmed.order-service]
-    G --> K[Build Routing Key<br/>system.health.ok.monitoring]
+    C -->|"Notification"| E[sendNotification]
     
-    H --> L[user.events.exchange]
-    I --> M[notification.events.exchange]
-    J --> N[order.events.exchange]
-    K --> O[system.events.exchange]
+    C -->|"Order Event"| F[sendOrderEvent]
     
-    L --> P[user.notifications.queue]
-    M --> Q[email.notifications.queue]
-    N --> R[order.processing.queue]
-    O --> S[system.monitoring.queue]
+    C -->|"System Event"| G[sendSystemEvent]
     
-    style B fill:#e1f5fe
-    style L fill:#fff3e0
-    style M fill:#fff3e0
-    style N fill:#fff3e0
-    style O fill:#fff3e0
+    D --> H["Build Routing Key\nuser.created.inactive.auth"]
+    E --> I["Build Routing Key\nnotification.email.welcome.active"]
+    F --> J["Build Routing Key\norder.created.confirmed.order-service"]
+    G --> K["Build Routing Key\nsystem.health.ok.monitoring"]
+    
+    H --> L["user.events.exchange"]
+    I --> M["notification.events.exchange"]
+    J --> N["order.events.exchange"]
+    K --> O["system.events.exchange"]
+    
+    L --> P["user.notifications.queue"]
+    M --> Q["email.notifications.queue"]
+    N --> R["order.processing.queue"]
+    O --> S["system.monitoring.queue"]
+    
+    style B fill:#e1f5fe,stroke:#0288d1,stroke-width:1px
+    style L fill:#fff3e0,stroke:#fb8c00,stroke-width:1px
+    style M fill:#fff3e0,stroke:#fb8c00,stroke-width:1px
+    style N fill:#fff3e0,stroke:#fb8c00,stroke-width:1px
+    style O fill:#fff3e0,stroke:#fb8c00,stroke-width:1px
+
+
 ```
 
 ### **2. Error Handling & Dead Letter Flow**
