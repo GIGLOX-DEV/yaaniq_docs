@@ -131,42 +131,56 @@ public class MyEventHandler {
 
 ```mermaid
 graph TB
-    subgraph "Service A (Publisher)"
-        A1[Service Layer] --> A2[UniversalMessageProducer]
-        A2 --> A3[RabbitTemplate]
-    end
-    
-    subgraph "RabbitMQ Infrastructure"
-        B1[Topic Exchange<br/>user.events.exchange]
-        B2[Queue<br/>user.notifications.queue]
-        B3[Topic Exchange<br/>notification.events.exchange]
-        B4[Email Queue<br/>email.notifications.queue]
-        B5[SMS Queue<br/>sms.notifications.queue]
-        B6[Push Queue<br/>push.notifications.queue]
-        B7[DLX Exchange<br/>dlx.exchange]
-        B8[DLX Queue<br/>dlx.queue]
-    end
-    
-    subgraph "Service B (Consumer)"
-        C1[@RabbitListener] --> C2[UserEventHandler]
-        C2 --> C3[UniversalMessageProducer]
-        C3 --> C4[Notification Handlers]
-    end
-    
-    A3 --> B1
-    B1 -.->|user.created.*.*| B2
-    B2 --> C1
-    C3 --> B3
-    B3 -.->|notification.email.*| B4
-    B3 -.->|notification.sms.*| B5
-    B3 -.->|notification.push.*| B6
-    B1 -.->|Failed Messages| B7
-    B7 --> B8
-    
-    style A2 fill:#e1f5fe
-    style C2 fill:#f3e5f5
-    style B1 fill:#fff3e0
-    style B3 fill:#fff3e0
+  %% ===============================
+  %% Service A (Publisher)
+  %% ===============================
+  subgraph "Service A (Publisher)"
+    A1["Service Layer"]
+    A2["UniversalMessageProducer"]
+    A3["RabbitTemplate"]
+    A1 --> A2
+    A2 --> A3
+  end
+
+  %% ===============================
+  %% RabbitMQ Infrastructure
+  %% ===============================
+  subgraph "RabbitMQ Infrastructure"
+    B1["Topic Exchange\nuser.events.exchange"]
+    B2["Queue\nuser.notifications.queue"]
+    B3["Topic Exchange\nnotification.events.exchange"]
+    B4["Email Queue\nemail.notifications.queue"]
+    B5["SMS Queue\nsms.notifications.queue"]
+    B6["Push Queue\npush.notifications.queue"]
+    B7["DLX Exchange\ndlx.exchange"]
+    B8["DLX Queue\ndlx.queue"]
+  end
+
+  %% ===============================
+  %% Service B (Consumer)
+  %% ===============================
+  subgraph "Service B (Consumer)"
+    C1["@RabbitListener"]
+    C2["UserEventHandler"]
+    C3["UniversalMessageProducer"]
+    C4["Notification Handlers"]
+    C1 --> C2
+    C2 --> C3
+    C3 --> C4
+  end
+
+  %% ===============================
+  %% Message Flow Connections
+  %% ===============================
+  A3 --> B1
+  B1 -->|user.created.*.*| B2
+  B2 --> C1
+  C3 --> B3
+  B3 -->|notification.email.*| B4
+  B3 -->|notification.sms.*| B5
+  B3 -->|notification.push.*| B6
+  B1 -.->|Failed Messages| B7
+  B7 --> B8
 ```
 
 ---
